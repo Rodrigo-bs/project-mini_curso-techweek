@@ -20,3 +20,4 @@ Route::get('/tasks/edit/{id}', [TaskController::class, 'edit']);
 
 Route::post('/tasks/store', [TaskController::class, 'store']);
 Route::put('/tasks/update/{id}', [TaskController::class, 'update']);
+Route::delete('/tasks/delete/{id}', [TaskController::class, 'destroy']);

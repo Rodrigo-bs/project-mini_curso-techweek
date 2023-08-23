@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Spatie\Backtrace\Arguments\ReduceArgumentsAction;
 
 class TaskController extends Controller
 {
@@ -36,6 +38,24 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
+        $rulesValidator = [
+            'nome' => 'required',
+            'status' => 'required'
+        ];
+
+        $messagesValidator = [
+            'nome.required' => 'O campo nome é um campo obrigatório.',
+            'status.required' => 'O campo status deve ser preenchido.'
+        ];
+
+        $validator = Validator::make($request->all(), $rulesValidator, $messagesValidator);
+
+        if ($validator->fails()) {
+            return redirect('/tasks/create')
+                    ->withErrors($validator)
+                    ->withInput();
+        }
+
         $name = $request->input('nome');
         $status = $request->input('status');
 
@@ -111,6 +131,11 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Task::findOrFail($id)->delete();
+        
+        return redirect('/')->with('msg', [
+            'msg' => 'Task deletada com sucesso',
+            'action' => 'success'
+        ]);
     }
 }

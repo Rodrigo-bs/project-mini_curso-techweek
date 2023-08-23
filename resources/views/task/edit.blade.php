@@ -13,7 +13,7 @@
                 <label for="status" class="form-label">Status</label>
                 <select name="status" id="status" class="form-select">
                     <option value="1" @selected($task->status == '1')>Ativo</option>
-                    <option value="0" @selected($task->status == '0')>Inativo</option>
+                    <option value="2" @selected($task->status == '2')>Inativo</option>
                 </select>
             </div>
         </div>
